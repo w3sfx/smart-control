@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApartamentoController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -21,5 +22,10 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/home', [HomeController::class, 'index']);
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+    Route::prefix('apartamento')->group(function () {
+        Route::get('/cadastro', [ApartamentoController::class, 'index'])->name('apartamento.cadastro');
+        Route::post('/store', [ApartamentoController::class, 'store'])->name('apartamento.store');
+    });
 });
