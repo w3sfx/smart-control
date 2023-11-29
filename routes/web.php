@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApartamentoController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MoradorController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,5 +28,10 @@ Route::middleware([
     Route::prefix('apartamento')->group(function () {
         Route::get('/cadastro', [ApartamentoController::class, 'index'])->name('apartamento.cadastro');
         Route::post('/store', [ApartamentoController::class, 'store'])->name('apartamento.store');
+    });
+
+    Route::prefix('morador')->group(function () {
+        Route::get('/cadastro', [MoradorController::class, 'index'])->name('morador.cadastro');
+        Route::post('/store', [MoradorController::class, 'store'])->name('morador.store');
     });
 });

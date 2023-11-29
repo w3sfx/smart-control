@@ -5,7 +5,7 @@
             <span class="border-4 border-white w-full mt-3"></span>
             <ul class="mt-5 space-y-8">
                 <li @click="apartamento()" class="text-white font-semibold"><i class="text-3xl text-white bi bi-building-fill-add"></i> Cadastro de Apartamento</li>
-                <li class="text-white font-semibold"><i class="text-3xl text-white bi bi-person-plus-fill"></i> Cadastro de Morador</li>
+                <li @click="morador()" class="text-white font-semibold"><i class="text-3xl text-white bi bi-person-plus-fill"></i> Cadastro de Morador</li>
                 <li class="text-white font-semibold"><i class="text-3xl text-white bi bi-person-lines-fill"></i> Visitantes</li>
             </ul>
             <button @click="logout()" class="bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-lg w-36 mt-[450px]">
@@ -33,6 +33,10 @@ export default defineComponent({
 
         apartamento() {
             this.$inertia.get(route('apartamento.cadastro'));
+        },
+
+        morador() {
+            this.$inertia.get(route('morador.cadastro'));
         }
     }
 
