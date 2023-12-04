@@ -7,6 +7,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import Home from "@/Pages/Home/Home.vue";
 import PrimeVue from 'primevue/config';
+import 'primevue/resources/themes/lara-light-green/theme.css'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 

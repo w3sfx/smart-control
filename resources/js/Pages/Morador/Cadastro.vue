@@ -1,5 +1,7 @@
 <template>
     <app-layout>
+        <p class="text-black font-semibold mb-4"><i class="text-3xl text-black bi bi-person-plus-fill"></i> Cadastro de Morador</p>
+
         <p>Olá, <span class="font-semibold">{{ this.$attrs.auth.user.name }}</span>!</p>
         <div class="border-4 border-gray-500 h-auto w-full p-8 mt-4">
             <div class="grid grid-cols-3 gap-8">
