@@ -39,5 +39,6 @@ Route::middleware([
     Route::prefix('visitante')->group(function () {
         Route::get('/cadastro', [VisitanteController::class, 'index'])->name('visitante.cadastro');
         Route::post('/store', [VisitanteController::class, 'store'])->name('visitante.store');
+        Route::post('/saida', [VisitanteController::class, 'saida'])->name('visitante.saida');
     });
 });

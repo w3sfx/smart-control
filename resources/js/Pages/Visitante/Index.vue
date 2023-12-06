@@ -4,7 +4,18 @@
 
         <p>Olá, <span class="font-semibold">{{ this.$attrs.auth.user.name }}</span>!</p>
         <div class="border-4 border-gray-500 h-auto w-full p-8 mt-4 mb-8">
-            <div class="grid grid-cols-3 gap-8">
+            <div class="grid grid-cols-2 gap-8">
+                <div class="flex flex-col">
+                    <Label value="Morador"/>
+                    <Multiselect
+                        v-model="form.morador"
+                        :options="moradorArr"
+                        track-by="id"
+                        label="name"
+                        placeholder="Selecione"
+
+                    />
+                </div>
                 <div class="flex flex-col">
                     <Label value="Tipo Pessoa"/>
                     <Multiselect
@@ -31,6 +42,7 @@
         </div>
         <div class="card">
             <DataTable editMode="cell" rowHover="true" :value="visitantes" tableStyle="min-width: 50rem" @row-dblclick="handleRowClick">
+                <Column field="morador" header="Morador"></Column>
                 <Column field="tipo" header="Tipo Pessoa"></Column>
                 <Column field="nome" header="Nome"></Column>
                 <Column field="descricao" header="Descrição"></Column>
@@ -67,6 +79,7 @@ export default defineComponent({
                 data_entrada: null,
                 data_saida: null,
                 status: null,
+                morador: null
             },
             visitantes: [],
             tipoDescricao: {
@@ -83,6 +96,7 @@ export default defineComponent({
                 'border-radius': '5px',
                 'overflow': 'hidden',
             },
+            moradorArr: []
         }
     },
 
@@ -97,6 +111,11 @@ export default defineComponent({
 
     props: {
         visitante: Object,
+        morador: Object
+    },
+
+    created() {
+        this.moradorArr = this.objectToArray(this.morador);
     },
 
     mounted() {
@@ -113,13 +132,40 @@ export default defineComponent({
                         text: "Informações adicionadas.",
                         icon: "success"
                     });
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
                 },
             });
         },
 
         handleRowClick(event) {
-            // Lógica para manipular o clique na linha aqui
-            console.log(event);
+            Swal.fire({
+                title: "Deseja finalizar a visita?",
+                text: "Após a confirmação, não poderá ser desfeita!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sim!",
+                cancelButtonText: "Não!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.$inertia.post(route('visitante.saida'), event, {
+                        preserveScroll: true,
+                        onSuccess: (page) => {
+                            Swal.fire({
+                                title: "Horário de saída setado!",
+                                text: "Informações atualizadas.",
+                                icon: "success"
+                            });
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1000);
+                        },
+                    });
+                }
+            });
         },
 
         formatar() {
@@ -128,6 +174,7 @@ export default defineComponent({
                 tipo: this.tipoDescricao[objeto.tipo],
                 status: this.statusDescricao[objeto.status],
                 data_entrada: this.formatarDataBrasileira(objeto.data_entrada),
+                data_saida: objeto.data_saida ? this.formatarDataBrasileira(objeto.data_saida) : null,
             }));
         },
 
@@ -141,6 +188,11 @@ export default defineComponent({
             const segundos = String(dataObj.getSeconds()).padStart(2, '0');
 
             return `${dia}/${mes}/${ano} ${horas}:${minutos}:${segundos}`;
+        },
+
+        objectToArray(obj) {
+            const keys = Object.keys(obj);
+            return keys.map((key) => ({ id: obj[key].nome, name: obj[key].nome }));
         },
     },
 

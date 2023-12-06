@@ -29,6 +29,7 @@ export default defineComponent({
     methods: {
         logout() {
             router.post(route('logout'));
+            //router.get(route('login'));
         },
 
         apartamento() {

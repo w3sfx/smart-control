@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('status');
             $table->dateTime('data_entrada');
             $table->dateTime('data_saida')->nullable();
+            $table->string('morador');
             $table->timestamps();
         });
     }
